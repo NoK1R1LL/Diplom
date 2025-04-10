@@ -1,0 +1,533 @@
+/* Сброс отступов и границ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Основной контейнер */
+.main-container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Первая колонка (header) */
+.header-column {
+    background-color: #0079C2;
+    color: #f4f4f9;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    font-family: 'HeliosCond', sans-serif;
+    text-transform: uppercase;
+}
+
+/* Логотип */
+.logo img {
+    width: 100%;
+    max-width: 150px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* Элементы "Товары" и "Места хранения" */
+.header-items h2 {
+    font-family: 'HeliosCond', sans-serif;
+    margin: 10px 0;
+    text-transform: uppercase;
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    display: block; /* Сделаем блоком, чтобы можно было легко кликать */
+    text-align: right;
+    cursor: pointer; /* Указываем, что элемент кликабельный */
+}
+
+/* Вторая колонка (body) */
+.body-column {
+    flex: 1;
+    background-color: #f4f4f9;
+    padding: 20px;
+    overflow-y: auto;
+    font-family: 'HeliosCond', sans-serif;
+}
+
+/* Вкладки */
+.tabs {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.tab {
+    padding: 10px;
+    text-transform: uppercase;
+    cursor: pointer;
+    background-color: #f4f4f9;
+    margin-right: 10px;
+    transition: background-color 0.3s;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+}
+
+/* Активная вкладка */
+.tab.active {
+    color: rgb(0, 0, 0);
+    border-bottom: 2px solid #0079C2;
+}
+
+/* Hover для вкладок */
+.tab:not(.active):hover {
+    border-bottom: 2px solid #ddd;
+}
+
+/* Секция товаров с поиском и фильтрацией */
+.product-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.search-filter input,
+.search-filter select {
+    padding: 8px;
+    margin-right: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-family: 'HeliosCond', sans-serif;
+    text-transform: uppercase;
+}
+
+/* Кнопки */
+.barcode-button,
+.write-off-button,
+.create-button,
+.export-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    user-select: none;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    border-radius: 6px;
+    padding: 5px 8px;
+    min-height: 36px;
+    min-width: 120px;
+    border: 1px solid #f4f4f9;
+    background-color: #0079C2;
+    color: #f4f4f9;
+    text-decoration: none;
+}
+
+.barcode-button:before,
+.create-button::before,
+.write-off-button::before {
+    font-size: 14px;
+    margin-right: 6px;
+}
+
+.create-button::before {
+    content: "+";
+}
+
+.write-off-button::before {
+    content: "-";
+}
+
+.create-button.no-plus::before,
+.create-button delete-button::before,
+#createShelfButton::before,
+#editShelfButton::before {
+    content: none;
+}
+
+.barcode-button:hover,
+.write-off-button:hover,
+.create-button:hover,
+.export-button:hover {
+    background-color: #f4f4f9;
+    color: #0079C2;
+    border: 1px solid #0079C2;
+}
+
+/* Таблица */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+table th,
+table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+table th {
+    background-color: #007bff;
+    color: white;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+.product-img {
+    width: 80px;
+    height: auto;
+    border-radius: 5px;
+    transition: transform 0.3s;
+}
+
+.product-img:hover {
+    transform: scale(1.1);
+}
+
+/* Стили для попапа */
+/* Общие стили для попапов */
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    width: 400px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    font-family: 'HeliosCond', sans-serif;
+}
+
+/* Специфичные стили для попапа с редактированием склада */
+#storageDetailsPopup .popup-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Промежуток между элементами */
+}
+
+#storageDetailsPopup .popup-content button {
+    background: #007bff;
+    color: white;
+    padding: 10px 20px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-size: 16px;
+}
+
+#storageDetailsPopup .popup-content button:hover {
+    background: #0056b3;
+}
+
+/* Контейнер для кнопок в popup */
+#storageDetailsPopup .action-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+#storageDetailsPopup .action-buttons button {
+    width: auto; /* Убираем растягивание */
+    margin: 0;
+}
+
+#storageDetailsPopup .close {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+    transition: color 0.3s;
+}
+
+#storageDetailsPopup .close:hover {
+    color: red;
+}
+
+.popup-content .edit-button {
+    width: auto;
+    background: #007bff;
+    color: white;
+}
+
+.popup-content .delete-button {
+    width: auto;
+    background: #e74c3c;
+    color: white;
+}
+
+.popup-content .edit-button:hover {
+    background: #0056b3;
+}
+
+.popup-content .delete-button:hover {
+    background: #c0392b;
+}
+
+
+.popup h2 {
+    margin-bottom: 20px; /* Добавим отступ */
+    font-size: 20px;
+    color: #333;
+    text-transform: uppercase;
+}
+
+.popup .close {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+    transition: color 0.3s;
+}
+
+.popup .close:hover {
+    color: red;
+}
+
+.popup input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.popup button {
+    background: #007bff;
+    color: white;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-size: 16px;
+}
+
+.popup button:hover {
+    background: #0056b3;
+}
+
+.popup .info {
+    font-size: 16px;
+    margin-bottom: 20px; /* Отступ между информацией и полем ввода */
+}
+
+/* Убираем слишком близкие элементы */
+.popup .action-buttons {
+    margin-top: 20px;
+}
+
+/* Контейнер для попапа */
+.popup-content {
+    position: relative;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Контейнер для кнопок в попапе */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* Стили для кнопок */
+.action-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Для кнопки "Редактировать" */
+.edit-button {
+    background-color: #28a745;
+    color: white;
+}
+
+/* Для кнопки "Удалить" */
+.delete-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Эффект при наведении */
+.action-button:hover {
+    opacity: 0.8;
+}
+
+/* Закрытие попапа */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#shelfName,
+#totalShelves {
+    width: 100%;
+    padding: 12px; /* Увеличиваем внутренние отступы для полей */
+    margin-bottom: 20px; /* Увеличиваем отступ между полями */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px; /* Увеличиваем размер шрифта */
+}
+
+#edit-product-form,
+#edit-product-name,
+#edit-product-description,
+#edit-product-category,
+#edit-product-quantity,
+#edit-product-shelf,
+#product-select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+#edit-save,
+#generate-barcode {
+    background: #007bff;
+    color: white;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-size: 16px;
+}
+
+#edit-save:hover,
+#generate-barcode:hover {
+    background: #0056b3;
+}
+
+.close {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+    transition: color 0.3s;
+}
+
+.close:hover {
+    color: red;
+}
+
+/* Анимация появления */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Hover для таблицы */
+.table-row:hover {
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+
+.product-img-preview {
+    width: 150px;  /* Размер изображения */
+    height: 150px;
+    border: 2px solid #ccc; /* Серый бордер */
+    border-radius: 8px; /* Скругленные углы */
+    object-fit: cover; /* Обрезка под размер */
+    display: none; /* По умолчанию скрыто */
+}
+
+#product-photo-preview {
+    max-width: 100%;
+    display: none; /* Скрыть фото до загрузки */
+    margin-top: 10px;
+    border: 2px solid #ccc;
+    padding: 5px;
+    border-radius: 5px;
+    transition: opacity 0.3s ease; /* Плавное появление */
+    opacity: 0; /* Начальная непрозрачность */
+}
+
+#product-photo-preview.loaded {
+    opacity: 1; /* Плавно делаем фото видимым */
+    display: block; /* Показываем фото */
+}
+
+/* -------------------
+
+/* Контейнер для кнопок */
+.popup-button-container {
+    display: flex;
+    justify-content: space-between; /* Разделяет кнопки по краям */
+    gap: 5px;
+    margin-top: 20px; /* Отступ сверху */
+}
+
+/* Стили для кнопок */
+.popup-button {
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #28a745; /* Зеленый цвет для кнопок */
+    color: white;
+    font-size: 14px;
+    text-align: center; /* Центрируем текст */
+    transition: background-color 0.3s ease; /* Плавный переход для фона */
+}
+
+/* Для кнопки Редактировать задаем большую ширину */
+#editShelfButton {
+    width: 130px; /* Ширина кнопки "Редактировать" */
+}
+
+/* Для кнопки Удалить задаем меньшую ширину */
+#deleteShelfButton {
+    width: 100px !important;/* Ширина кнопки "Удалить" */
+    background-color:red;
+}
+
+
+
+

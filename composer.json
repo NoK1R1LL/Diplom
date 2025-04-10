@@ -1,0 +1,19 @@
+{
+    "name": "myproject/diplom",
+    "type": "project",
+    "require": {
+        "phpoffice/phpspreadsheet": "^4.1",
+        "picqer/php-barcode-generator": "^3.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Myproject\\Diplom\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Kirill Kharkovskyk",
+            "email": "kharkovskyk@yandex.ru"
+        }
+    ]
+}
